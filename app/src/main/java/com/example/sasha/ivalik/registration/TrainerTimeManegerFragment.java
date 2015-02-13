@@ -1,22 +1,51 @@
 package com.example.sasha.ivalik.registration;
 
+
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.example.sasha.ivalik.MainActivity;
 import com.example.sasha.ivalik.R;
+import com.example.sasha.ivalik.models.TrainingDay;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by sasha on 2/10/15.
  */
-public class TrainerTimeManegerFragment extends Fragment {
+public class TrainerTimeManegerFragment extends Fragment implements View.OnClickListener {
+    public ArrayList<TrainingDay> days;//= new ArrayList<>();
+    ImageButton addBtn;
+    DateFormat formatDateTime = DateFormat.getDateTimeInstance();
+    Calendar dateTime = Calendar.getInstance();
+    TimePickerDialog.OnTimeSetListener mTimeSetListener =
+            new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(android.widget.TimePicker view,
+                                      int hourOfDay, int minute) {
+                    Log.i("", "" + hourOfDay + ":" + minute);
+                    days.add(new TrainingDay(hourOfDay, minute));
+                    Log.d(MainActivity.LOG_TAG, "ADD TRAINING " + days.size());
+                    mAdapter.notifyDataSetChanged();
+                }
+            };
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
+    private MyAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,74 +55,90 @@ public class TrainerTimeManegerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.time_maneger_fragment, container, false);
+        addBtn = (ImageButton) rootView.findViewById(R.id.button3);
+        addBtn.setOnClickListener(this);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
 //        mRecyclerView.setItemViewCacheSize(6);
-        mLayoutManager= new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-            RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-            mRecyclerView.setItemAnimator(itemAnimator);
+        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+
+        mRecyclerView.setLayoutManager(layoutManager);
+        //mRecyclerView.setLayoutManager(mLayoutManager);
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        mRecyclerView.setItemAnimator(itemAnimator);
 //        // specify an adapter (see also next example)
-//        mAdapter = new MyAdapter(guides);
-//        mAdapter.setOnItemClickListener(this);
+        days = new ArrayList<>();
+        days.add(new TrainingDay(15, 20));
+
+        mAdapter = new MyAdapter(days);
+        // mAdapter.setOnItemClickListener(this);
 //
-//        mRecyclerView.setAdapter(mAdapter);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        mRecyclerView.setAdapter(mAdapter);
+        return rootView;
     }
-//    private class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
-//        ArrayList<CityGuide> citys;
-//        OnItemClicklistener onItemClicklistener;
-//
-//        MyAdapter(ArrayList<CityGuide> citys) {
-//            this.citys = citys;
-//        }
-//
-//        public void setOnItemClickListener(OnItemClicklistener onItemClicklistener) {
-//            this.onItemClicklistener = onItemClicklistener;
-//        }
-//
-//        @Override
-//        public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-//            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recyclerview_item, viewGroup, false);
-//            return new MyViewHolder(v, onItemClicklistener);
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(MyViewHolder viewHolder, int i) {
-//
-//
-//        }
-//
-//
-//
-//        @Override
-//        public int getItemCount() {
-//            return citys.size();
-//        }
-//
-//    }
-////
-//    private class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-//
-//        OnItemClicklistener onItemClicklistener;
-//        View itemView;
-//
-//
-//        public MyViewHolder(View itemView, OnItemClicklistener onItemClicklistener) {
-//            super(itemView);
-//            this.itemView = itemView;
-//
-//            this.onItemClicklistener = onItemClicklistener;
-//
-//
-//        }
-//
-//        @Override
-//        public void onClick(View view) {
-//            // if(mItemClickListener!=null)
-//
-//            // if (onItemClicklistener != null)
-//            onItemClicklistener.onClickItem(itemView, view, getPosition());
-//
-//        }
-//    }
+
+    @Override
+    public void onClick(View v) {
+        Log.d(MainActivity.LOG_TAG, "onClick " + days.size());
+        DialogFragment newFragment = new TimePickerFragment(mTimeSetListener);
+        newFragment.show(getFragmentManager(), "timePicker");
+    }
+
+    private class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+        ArrayList<TrainingDay> trainind;
+        OnItemClicklistener onItemClicklistener;
+
+        MyAdapter(ArrayList<TrainingDay> citys) {
+            this.trainind = citys;
+        }
+
+        public void setOnItemClickListener(OnItemClicklistener onItemClicklistener) {
+            this.onItemClicklistener = onItemClicklistener;
+        }
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.time_selection_item, viewGroup, false);
+            return new MyViewHolder(v, onItemClicklistener);
+        }
+
+        @Override
+        public void onBindViewHolder(MyViewHolder viewHolder, int i) {
+            viewHolder.time.setText(trainind.get(i).hour + ":" + trainind.get(i).minute);
+
+
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return trainind.size();
+        }
+
+    }
+
+    //
+    private class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        OnItemClicklistener onItemClicklistener;
+        View itemView;
+        private TextView time;
+
+
+        public MyViewHolder(View itemView, OnItemClicklistener onItemClicklistener) {
+            super(itemView);
+            this.itemView = itemView;
+            this.onItemClicklistener = onItemClicklistener;
+            time = (TextView) itemView.findViewById(R.id.textView4);
+
+        }
+
+        @Override
+        public void onClick(View view) {
+            // if(mItemClickListener!=null)
+
+            // if (onItemClicklistener != null)
+            onItemClicklistener.onClickItem(itemView, view, getPosition());
+
+        }
+    }
 }
