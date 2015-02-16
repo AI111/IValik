@@ -13,8 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.example.sasha.ivalik.MainActivity;
 import com.example.sasha.ivalik.R;
@@ -83,7 +87,23 @@ public class TrainerTimeManegerFragment extends Fragment implements View.OnClick
         newFragment.show(getFragmentManager(), "timePicker");
     }
 
-    private class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+    public void showMenu(View view) {
+        TranslateAnimation animate = new TranslateAnimation(0, 0, view.getHeight(), 0);
+        animate.setDuration(300);
+        animate.setFillAfter(false);
+        view.startAnimation(animate);
+        view.setVisibility(View.VISIBLE);
+    }
+
+    public void hideMenu(View view) {
+        TranslateAnimation animate = new TranslateAnimation(0, 0, view.getHeight(), 0);
+        animate.setDuration(300);
+        animate.setFillAfter(false);
+        view.startAnimation(animate);
+        view.setVisibility(View.GONE);
+    }
+
+    private class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements CompoundButton.OnCheckedChangeListener {
         ArrayList<TrainingDay> trainind;
         OnItemClicklistener onItemClicklistener;
 
@@ -104,7 +124,7 @@ public class TrainerTimeManegerFragment extends Fragment implements View.OnClick
         @Override
         public void onBindViewHolder(MyViewHolder viewHolder, int i) {
             viewHolder.time.setText(trainind.get(i).hour + ":" + trainind.get(i).minute);
-
+            viewHolder.toggleButton.setOnCheckedChangeListener(this);
 
         }
 
@@ -114,6 +134,17 @@ public class TrainerTimeManegerFragment extends Fragment implements View.OnClick
             return trainind.size();
         }
 
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            LinearLayout layout = (LinearLayout) buttonView.getRootView().findViewById(R.id.Calendar_feeld);
+            layout.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+//            if(isChecked){
+//                //showMenu(layout);
+//                layout.animate().translationXBy(-1000).start();
+//            }else{
+//                //hideMenu(layout);
+//            }
+        }
     }
 
     //
@@ -122,13 +153,14 @@ public class TrainerTimeManegerFragment extends Fragment implements View.OnClick
         OnItemClicklistener onItemClicklistener;
         View itemView;
         private TextView time;
-
+        private ToggleButton toggleButton;
 
         public MyViewHolder(View itemView, OnItemClicklistener onItemClicklistener) {
             super(itemView);
             this.itemView = itemView;
             this.onItemClicklistener = onItemClicklistener;
             time = (TextView) itemView.findViewById(R.id.textView4);
+            toggleButton = (ToggleButton) itemView.findViewById(R.id.UP_DOWN);
 
         }
 

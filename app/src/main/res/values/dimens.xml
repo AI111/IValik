@@ -7,4 +7,5 @@
          https://developer.android.com/design/patterns/navigation-drawer.html -->
     <dimen name="navigation_drawer_width">240dp</dimen>
     <dimen name="button_font_size">24sp</dimen>
+    <dimen name="buttone_raius">8dp</dimen>
 </resources>

@@ -12,6 +12,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:divider="@android:drawable/divider_horizontal_dim_dark"
         android:orientation="vertical"
         android:paddingBottom="5dp">
 
@@ -32,25 +33,30 @@
                 android:textIsSelectable="true"
                 android:textSize="40dp" />
 
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical|right"
+            <ToggleButton
+                android:id="@+id/UP_DOWN"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
                 android:layout_marginRight="10dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/delete" />
+                android:background="@drawable/tougle_button"
+                android:text=""
+                android:textOff=""
+                android:textOn="" />
+
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/Calendar_feeld"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_weight="1"
+            android:animateLayoutChanges="true"
             android:gravity="fill_horizontal|center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ToggleButton
                 android:id="@+id/toggleButton1"
@@ -60,8 +66,8 @@
                 android:background="@drawable/custom_button"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="New ToggleButton2"
-                android:textOff="D"
-                android:textOn="D"
+                android:textOff="@string/Monday"
+                android:textOn="@string/Monday"
                 android:translationZ="0dp" />
 
             <View
@@ -77,8 +83,8 @@
                 android:background="@drawable/custom_button"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="New ToggleButton2"
-                android:textOff="D"
-                android:textOn="D"
+                android:textOff="@string/Tuesday"
+                android:textOn="@string/Tuesday"
                 android:translationZ="3dp" />
 
             <View
@@ -94,8 +100,8 @@
                 android:background="@drawable/custom_button"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="New ToggleButton1"
-                android:textOff="П"
-                android:textOn="П"
+                android:textOff="@string/Wednesday"
+                android:textOn="@string/Wednesday"
                 android:translationZ="4dp" />
 
             <View
@@ -111,8 +117,8 @@
                 android:background="@drawable/custom_button"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="New ToggleButton3"
-                android:textOff="П"
-                android:textOn="П" />
+                android:textOff="@string/Thursday"
+                android:textOn="@string/Thursday" />
 
             <View
                 android:layout_width="0dp"
@@ -127,8 +133,8 @@
                 android:background="@drawable/custom_button"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="New ToggleButton"
-                android:textOff="П"
-                android:textOn="П" />
+                android:textOff="@string/Friday"
+                android:textOn="@string/Friday" />
 
             <View
                 android:layout_width="0dp"
@@ -143,8 +149,24 @@
                 android:background="@drawable/custom_button"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="New ToggleButton"
-                android:textOff="П"
-                android:textOn="П" />
+                android:textOff="@string/Saturday"
+                android:textOn="@string/Saturday" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></View>
+
+            <ToggleButton
+                android:id="@+id/toggleButton8"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="2dp"
+                android:background="@drawable/custom_button"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="New ToggleButton"
+                android:textOff="@string/Sunday"
+                android:textOn="@string/Sunday" />
 
         </LinearLayout>
 
