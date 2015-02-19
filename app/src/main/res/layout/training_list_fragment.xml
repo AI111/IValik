@@ -13,14 +13,5 @@
             android:layout_height="match_parent"
             android:scrollbars="vertical" />
 
-        <ImageButton
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/round_button"
-            android:nestedScrollingEnabled="false"
-            android:src="@drawable/plus" />
     </RelativeLayout>
 </FrameLayout>
