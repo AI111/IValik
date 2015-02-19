@@ -28,7 +28,7 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener, 
     private ProgressBar progressBar;
     private CustomExercise exercise;
     private ImageView img1, img2;
-    private TextView description, title, approach, repeat, weight;
+    private TextView description, title, approach, repeat, weight, time;
 
     public ExerciseFragment(CustomExercise exercise) {
         this.exercise = exercise;
@@ -52,6 +52,7 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener, 
         img2 = (ImageView) rootView.findViewById(R.id.imageView2);
         Picasso.with(getActivity()).load("file:///android_asset/" + exercise.getExercise().getUrl2()).into(img2);
         approach = (TextView) rootView.findViewById(R.id.textView17);
+        time = (TextView) rootView.findViewById(R.id.textView14);
         toggleButton = (ToggleButton) rootView.findViewById(R.id.UP_DOWN);
         toggleButton.setOnCheckedChangeListener(this);
         progressBar.setMax(5000);
@@ -66,12 +67,14 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void onTick(long millisUntilFinished) {
                 progressBar.setProgress((int) (5000 - millisUntilFinished));
+                time.setText(String.format("%4.2f", (float) (millisUntilFinished * 0.001f)));
                 Log.d(MainActivity.LOG_TAG, "onTick " + millisUntilFinished);
             }
 
             @Override
             public void onFinish() {
                 progressBar.setProgress(5000);
+                time.setText("START");
             }
         }.start();
 
