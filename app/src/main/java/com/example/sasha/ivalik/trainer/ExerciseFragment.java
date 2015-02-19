@@ -33,6 +33,7 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener, 
     public ExerciseFragment(CustomExercise exercise) {
         this.exercise = exercise;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +88,7 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        description.setMaxLines(isChecked ? 200 : 3);
+        description.setVisibility(isChecked ? View.VISIBLE : View.GONE);
     }
 }
 
