@@ -13,13 +13,22 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TimePicker;
 
+import com.example.sasha.ivalik.MainActivity;
 import com.example.sasha.ivalik.R;
+import com.example.sasha.ivalik.database.HelperFactory;
+import com.example.sasha.ivalik.models.CustomExercise;
+import com.example.sasha.ivalik.models.Exercise;
+import com.example.sasha.ivalik.models.Training;
+import com.j256.ormlite.table.TableUtils;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -55,6 +64,48 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
         super.onResume();
 
 
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Only show items in the action bar relevant to this screen
+        // if the drawer is not showing. Otherwise, let the drawer
+        // decide what to show in the action bar.
+        getMenuInflater().inflate(R.menu.global, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        switch (id) {
+            case R.id.show_tables:
+                try {
+                    Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getExerciseDAO().getAllExercises().toString());
+                    Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getCustomExerciseDAO().getAllCustomExercises().toString());
+                    Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getTrainingDAO().getAllTrainings().toString());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            case R.id.clear_tables:
+                try {
+                    TableUtils.clearTable(HelperFactory.getHelper().getConnectionSource(), CustomExercise.class);
+                    TableUtils.clearTable(HelperFactory.getHelper().getConnectionSource(), Exercise.class);
+                    TableUtils.clearTable(HelperFactory.getHelper().getConnectionSource(), Training.class);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

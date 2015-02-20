@@ -8,6 +8,9 @@ public class TrainingDay {
     public int hour;
     public int minute;
 
+    public TrainingDay() {
+
+    }
     public TrainingDay(int hour, int minute) {
         this.hour = hour;
         this.minute = minute;

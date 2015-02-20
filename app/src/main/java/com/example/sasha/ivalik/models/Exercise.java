@@ -8,10 +8,9 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "exercise")
 public class Exercise {
-    @DatabaseField(generatedId = true)
-    private int Id;
-    ;
-    @DatabaseField()
+    //    @DatabaseField(generatedId = true)
+//    private int Id;
+    @DatabaseField(id = true)
     private int nameId;
     @DatabaseField()
     private byte pM;
@@ -21,6 +20,10 @@ public class Exercise {
     private String url1;
     @DatabaseField()
     private String url2;
+
+    public Exercise() {
+
+    }
 
     public Exercise(int nameId, byte pM, int descriptionId, String url1, String url2) {
         this.nameId = nameId;
@@ -73,7 +76,7 @@ public class Exercise {
     @Override
     public String toString() {
         return "Exercise{" +
-                "Id=" + Id +
+                //"Id=" + Id +
                 ", nameId=" + nameId +
                 ", pM=" + pM +
                 ", descriptionId=" + descriptionId +

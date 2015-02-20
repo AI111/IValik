@@ -14,12 +14,28 @@ import java.util.Date;
  */
 @DatabaseTable(tableName = "training")
 public class Training {
-
+    @DatabaseField(generatedId = true)
+    private int id;
     @ForeignCollectionField(eager = true)
     private Collection<CustomExercise> roleList;
-
     @DatabaseField()
     private Date date;
+
+    public Training() {
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public void addCustomExercise(CustomExercise value) throws SQLException {
         value.setTraining(this);

@@ -1,5 +1,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/show_tables"
+        android:orderInCategory="100"
+        android:title="show_tables"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/clear_tables"
+        android:orderInCategory="100"
+        android:title="clear_tables"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/update_tables"
+        android:orderInCategory="100"
+        android:title="update_tables"
+        app:showAsAction="never" />
 </menu>

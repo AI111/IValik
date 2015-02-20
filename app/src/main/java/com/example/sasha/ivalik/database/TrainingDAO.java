@@ -17,7 +17,7 @@ public class TrainingDAO extends BaseDaoImpl<Training, Integer> {
         super(connectionSource, dataClass);
     }
 
-    public List<Training> getAllCities() throws SQLException {
+    public List<Training> getAllTrainings() throws SQLException {
         return this.queryForAll();
     }
 }

@@ -20,5 +20,6 @@ public class ExerciseDAO extends BaseDaoImpl<Exercise, Integer> {
     public List<Exercise> getAllExercises() throws SQLException {
         return this.queryForAll();
     }
+
 }
 

@@ -58,7 +58,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, CustomExercise.class, true);
 
 
-            //TableUtils.dropTable(connectionSource, Role.class, true);
+            TableUtils.createTable(connectionSource, Exercise.class);
+            TableUtils.createTable(connectionSource, Training.class);
+            TableUtils.createTable(connectionSource, CustomExercise.class);
             onCreate(db, connectionSource);
         } catch (SQLException e) {
             Log.e(TAG, "error upgrading db " + DATABASE_NAME + "from ver " + oldVer);
@@ -81,7 +83,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public TrainingDAO getTrainingDAO() throws SQLException {
-        if (customExerciseDAO == null) {
+        if (trainingDAO == null) {
             trainingDAO = new TrainingDAO(getConnectionSource(), Training.class);
         }
         return trainingDAO;
