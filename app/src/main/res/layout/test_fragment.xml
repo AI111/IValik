@@ -41,5 +41,14 @@
             android:layout_below="@+id/button2"
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button4"
+            android:layout_toEndOf="@+id/button"
+            android:layout_toRightOf="@+id/button"
+            android:text="ADD TRAINING" />
     </RelativeLayout>
 </LinearLayout>

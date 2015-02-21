@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "custom_exercise")
 public class CustomExercise {
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Exercise exercise;  //id упражнения
     @DatabaseField()
     private byte approach;
@@ -22,7 +22,7 @@ public class CustomExercise {
     private Training training; //id of feeld in  training
 
     public CustomExercise() {
-
+        super();
     }
 
     public CustomExercise(Exercise exercise, byte approach, byte repeat, byte percentPM, boolean finished) {
@@ -89,6 +89,7 @@ public class CustomExercise {
                 ", repeat=" + repeat +
                 ", percentPM=" + percentPM +
                 ", finished=" + finished +
+                ", Training=" + training +
                 "}\n";
     }
 }

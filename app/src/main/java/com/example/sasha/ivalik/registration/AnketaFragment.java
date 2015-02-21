@@ -15,15 +15,17 @@ import com.example.sasha.ivalik.R;
 import com.example.sasha.ivalik.database.HelperFactory;
 import com.example.sasha.ivalik.models.CustomExercise;
 import com.example.sasha.ivalik.models.Exercise;
+import com.example.sasha.ivalik.models.Training;
 
 import java.sql.SQLException;
+import java.util.Date;
 
 /**
  * Created by sasha on 2/10/15.
  */
 public class AnketaFragment extends Fragment implements View.OnClickListener {
     TextView textView;
-    private Button addExercise, showTables, addCustomExercise;
+    private Button addExercise, showTables, addCustomExercise, addTraining;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class AnketaFragment extends Fragment implements View.OnClickListener {
         showTables.setOnClickListener(this);
         addCustomExercise = (Button) rootView.findViewById(R.id.button4);
         addCustomExercise.setOnClickListener(this);
+        addTraining = (Button) rootView.findViewById(R.id.button5);
+        addTraining.setOnClickListener(this);
         textView = (TextView) rootView.findViewById(R.id.textView19);
         return rootView;
     }
@@ -62,9 +66,9 @@ public class AnketaFragment extends Fragment implements View.OnClickListener {
                 try {
                     textView.setText(HelperFactory.getHelper().getExerciseDAO().getAllExercises().toString() + "\n" + HelperFactory.getHelper().getCustomExerciseDAO().getAllCustomExercises().toString() + "\n" + HelperFactory.getHelper().getTrainingDAO().getAllTrainings().toString());
 
-//                    Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getExerciseDAO().getAllExercises().toString());
-//                    Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getCustomExerciseDAO().getAllCustomExercises().toString());
-//                    Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getTrainingDAO().getAllTrainings().toString());
+                    Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getExerciseDAO().getAllExercises().toString());
+                    Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getCustomExerciseDAO().getAllCustomExercises().toString());
+                    Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getTrainingDAO().getAllTrainings().toString());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -85,6 +89,30 @@ public class AnketaFragment extends Fragment implements View.OnClickListener {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+
+                break;
+            case R.id.button5:
+                Log.d(MainActivity.LOG_TAG, "ADD TRAININGS");
+                Training training = new Training();
+                training.setDate(new Date());
+                CustomExercise customExercise1 = null;
+                try {
+                    customExercise1 = new CustomExercise(HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.pull_ups_on_the_bar)
+                            , (byte) 10, (byte) 10, (byte) 80, false);
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    HelperFactory.getHelper().getTrainingDAO().create(training);
+
+                    training.addCustomExercise(customExercise1);
+                    Log.d(MainActivity.LOG_TAG, customExercise1.toString());
+                    Log.d(MainActivity.LOG_TAG, training.toString());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
 
                 break;
         }

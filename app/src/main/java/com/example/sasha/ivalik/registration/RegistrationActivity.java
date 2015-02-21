@@ -47,7 +47,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration_slide_activity);
         fragments.add(new AnketaFragment());
-        fragments.add(new MapFragment());
+        fragments.add(new MapaFragment());
         fragments.add(new TrainerTimeManegerFragment());
         // Instantiate a ViewPager and a PagerAdapter.
         next= (ImageButton)findViewById(R.id.imageButton2);

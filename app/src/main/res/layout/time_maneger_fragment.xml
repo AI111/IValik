@@ -21,6 +21,6 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/round_button"
             android:nestedScrollingEnabled="false"
-            android:src="@drawable/plus" />
+            android:src="@drawable/ic_add_grey600_48dp" />
     </RelativeLayout>
 </FrameLayout>
