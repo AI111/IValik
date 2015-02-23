@@ -132,7 +132,10 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
         switch (v.getId()){
             case R.id.imageButton2:
 
-                if (mPager.getCurrentItem()<fragments.size()-1)mPager.setCurrentItem(mPager.getCurrentItem()+1,true);
+                if (mPager.getCurrentItem() < fragments.size() - 1) {
+                    mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+
+                }
                 break;
             case R.id.imageButton3:
                 if (mPager.getCurrentItem()>0)mPager.setCurrentItem(mPager.getCurrentItem()-1,true);

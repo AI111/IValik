@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.example.sasha.ivalik.MainActivity;
 import com.example.sasha.ivalik.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -40,14 +39,15 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        LatLng sydney = new LatLng(-33.867, 151.206);
+    public void onMapReady(final GoogleMap googleMap) {
 
         googleMap.setMyLocationEnabled(true);
         googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
                 Log.d(MainActivity.LOG_TAG, "onMapLongClick " + latLng.latitude + " " + latLng.longitude);
+                if (marker == null)
+                    marker = googleMap.addMarker(new MarkerOptions().title("Зал").snippet("Место тренеровок").position(latLng).anchor(0.0f, 1.0f).draggable(true));
             }
         });
         googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
@@ -65,14 +65,10 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onMarkerDragEnd(Marker marker) {
                 Log.d(MainActivity.LOG_TAG, "onMarkerDragEnd " + marker.getPosition().latitude + " " + marker.getPosition().longitude);
+                // marker.setPosition();
             }
         });
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
 
-        googleMap.addMarker(new MarkerOptions()
-                .title("Sydney")
-                .snippet("The most populous city in Australia.")
-                .position(sydney).draggable(true));
     }
 
     @Override
