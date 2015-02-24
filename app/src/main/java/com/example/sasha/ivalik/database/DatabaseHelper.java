@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.sasha.ivalik.models.CustomExercise;
 import com.example.sasha.ivalik.models.Exercise;
+import com.example.sasha.ivalik.models.GeoPoint;
 import com.example.sasha.ivalik.models.Training;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
@@ -30,6 +31,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private ExerciseDAO exerciseDAO = null;
     private CustomExerciseDAO customExerciseDAO = null;
     private TrainingDAO trainingDAO = null;
+    private GeoPointDAO geoPointDAO = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,6 +44,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Exercise.class);
             TableUtils.createTable(connectionSource, Training.class);
             TableUtils.createTable(connectionSource, CustomExercise.class);
+            TableUtils.createTable(connectionSource, GeoPoint.class);
 
         } catch (SQLException e) {
             Log.e(TAG, "error creating DB " + DATABASE_NAME);
@@ -56,11 +59,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Exercise.class, true);
             TableUtils.dropTable(connectionSource, Training.class, true);
             TableUtils.dropTable(connectionSource, CustomExercise.class, true);
+            TableUtils.dropTable(connectionSource, GeoPoint.class, true);
 
 
             TableUtils.createTable(connectionSource, Exercise.class);
             TableUtils.createTable(connectionSource, Training.class);
             TableUtils.createTable(connectionSource, CustomExercise.class);
+            TableUtils.createTable(connectionSource, GeoPoint.class);
+
             onCreate(db, connectionSource);
         } catch (SQLException e) {
             Log.e(TAG, "error upgrading db " + DATABASE_NAME + "from ver " + oldVer);
@@ -89,6 +95,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return trainingDAO;
     }
 
+    public GeoPointDAO getGeoPointDAO() throws SQLException {
+        if (geoPointDAO == null) {
+            geoPointDAO = new GeoPointDAO(getConnectionSource(), GeoPoint.class);
+        }
+        return geoPointDAO;
+    }
+
     //выполняется при закрытии приложения
     @Override
     public void close() {
@@ -96,5 +109,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         exerciseDAO = null;
         trainingDAO = null;
         customExerciseDAO = null;
+        geoPointDAO = null;
     }
 }

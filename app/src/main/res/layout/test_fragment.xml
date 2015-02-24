@@ -50,5 +50,14 @@
             android:layout_toEndOf="@+id/button"
             android:layout_toRightOf="@+id/button"
             android:text="ADD TRAINING" />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/button4"
+            android:indeterminate="true" />
     </RelativeLayout>
 </LinearLayout>

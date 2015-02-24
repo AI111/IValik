@@ -20,4 +20,19 @@
         android:orderInCategory="100"
         android:title="update_tables"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/start_service"
+        android:orderInCategory="100"
+        android:title="start_service"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/stop_service"
+        android:orderInCategory="100"
+        android:title="stop_service"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/show_map"
+        android:orderInCategory="100"
+        android:title="show_map"
+        app:showAsAction="never" />
 </menu>

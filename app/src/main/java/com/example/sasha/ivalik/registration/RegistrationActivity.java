@@ -3,6 +3,7 @@ package com.example.sasha.ivalik.registration;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -23,8 +24,11 @@ import android.widget.TimePicker;
 import com.example.sasha.ivalik.MainActivity;
 import com.example.sasha.ivalik.R;
 import com.example.sasha.ivalik.database.HelperFactory;
+import com.example.sasha.ivalik.geolocation.SpyService;
+import com.example.sasha.ivalik.geolocation.UserWayActivity;
 import com.example.sasha.ivalik.models.CustomExercise;
 import com.example.sasha.ivalik.models.Exercise;
+import com.example.sasha.ivalik.models.GeoPoint;
 import com.example.sasha.ivalik.models.Training;
 import com.j256.ormlite.table.TableUtils;
 
@@ -46,6 +50,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration_slide_activity);
+        fragments.add(new TestFragment());
         fragments.add(new AnketaFragment());
         fragments.add(new MapaFragment());
         fragments.add(new TrainerTimeManegerFragment());
@@ -90,6 +95,8 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
                     Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getExerciseDAO().getAllExercises().toString());
                     Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getCustomExerciseDAO().getAllCustomExercises().toString());
                     Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getTrainingDAO().getAllTrainings().toString());
+                    Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getGeoPointDAO().getAllGeoPoints().toString());
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -99,9 +106,20 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
                     TableUtils.clearTable(HelperFactory.getHelper().getConnectionSource(), CustomExercise.class);
                     TableUtils.clearTable(HelperFactory.getHelper().getConnectionSource(), Exercise.class);
                     TableUtils.clearTable(HelperFactory.getHelper().getConnectionSource(), Training.class);
+                    TableUtils.clearTable(HelperFactory.getHelper().getConnectionSource(), GeoPoint.class);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+                return true;
+            case R.id.start_service:
+                startService(new Intent(this, SpyService.class));
+                return true;
+
+            case R.id.stop_service:
+                stopService(new Intent(this, SpyService.class));
+                return true;
+            case R.id.show_map:
+                startActivity(new Intent(this, UserWayActivity.class));
                 return true;
         }
 

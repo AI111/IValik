@@ -8,9 +8,16 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+        <service android:name=".geolocation.SpyService">
+
+        </service>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
+
+        </activity>
+        <activity android:name=".geolocation.UserWayActivity">
 
         </activity>
         <activity android:name=".registration.RegistrationActivity">
