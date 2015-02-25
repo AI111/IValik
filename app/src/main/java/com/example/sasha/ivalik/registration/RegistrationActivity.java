@@ -1,25 +1,18 @@
 package com.example.sasha.ivalik.registration;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.ImageButton;
-import android.widget.TimePicker;
 
 import com.example.sasha.ivalik.MainActivity;
 import com.example.sasha.ivalik.R;
@@ -35,7 +28,6 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Created by sasha on 2/10/15.
@@ -56,6 +48,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
         fragments.add(new TestFragment());
         fragments.add(new AnketaFragment());
         fragments.add(new MapaFragment());
+        fragments.add(new TrainerTimeManegerFragment());
         fragments.add(new TrainingCustomizationFragment());
         // Instantiate a ViewPager and a PagerAdapter.
         next= (ImageButton)findViewById(R.id.imageButton2);
@@ -140,72 +133,32 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
     }
-    public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "timePicker");
-    }
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.imageButton2:
                 if (mPager.getCurrentItem() < fragments.size() - 1) {
                     mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+                    prev.setVisibility(View.VISIBLE);
+                    if (mPager.getCurrentItem() == fragments.size() - 1) {
+                        next.setVisibility(View.GONE);
+                    }
 
                 }
                 break;
             case R.id.imageButton3:
-                if (mPager.getCurrentItem()>0)mPager.setCurrentItem(mPager.getCurrentItem()-1,true);
+                if (mPager.getCurrentItem() > 0) {
+                    mPager.setCurrentItem(mPager.getCurrentItem() - 1, true);
+                    next.setVisibility(View.VISIBLE);
+                    if (mPager.getCurrentItem() == 0) {
+                        prev.setVisibility(View.GONE);
+                    }
+                }
+
                 break;
         }
     }
 
-    public static class TimePickerFragment extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
-
-            // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
-        }
-
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            // Do something with the time chosen by the user
-            Log.i("", "" + hourOfDay + ":" + minute);
-        }
-    }
-
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int mouth = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_WEEK);
-
-            // Create a new instance of TimePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, mouth,
-                    day);
-        }
-
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            Log.i("", "" + year + ":" + monthOfYear + " " + dayOfMonth);
-        }
-    }
 
     /**
      * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in

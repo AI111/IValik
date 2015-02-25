@@ -198,7 +198,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_add_circle_outline_black_24dp" />
+                    android:src="@drawable/plus" />
             </LinearLayout>
 
             <ListView

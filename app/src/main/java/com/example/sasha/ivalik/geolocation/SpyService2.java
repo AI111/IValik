@@ -28,12 +28,13 @@ import java.sql.SQLException;
  * Created by sasha on 2/23/15.
  */
 public class SpyService2 extends Service {
-    private static final int LOCATION_INTERVAL = 5000;
-    private static final float LOCATION_DISTANCE = 10f;
+    private static final int LOCATION_INTERVAL = 60 * 1000;
+    private static final float LOCATION_DISTANCE = 0f;
     private static final double radius = 0.0005;
     private static final double r2 = radius * radius;
     LocationManager locationManager;
     private LatLng latLng;
+    private LocationListener locationListener;
 
     public void onCreate() {
         super.onCreate();
@@ -57,6 +58,9 @@ public class SpyService2 extends Service {
 
     public void onDestroy() {
         super.onDestroy();
+        locationManager.removeUpdates(locationListener);
+        locationManager = null;
+        stopSelf();
         Log.d(MainActivity.LOG_TAG, "onDestroy");
     }
 
@@ -70,7 +74,7 @@ public class SpyService2 extends Service {
             public void run() {
 
 
-                LocationListener locationListener = new LocationListener() {
+                locationListener = new LocationListener() {
                     public void onLocationChanged(Location location) {
                         // Called when a new location is found by the network location provider.
                         // makeUseOfNewLocation(location);
@@ -113,10 +117,10 @@ public class SpyService2 extends Service {
     public void showNotification(int mId) {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_add_circle_outline_black_24dp)
+                        .setSmallIcon(R.drawable.plus)
                         .setContentTitle("My notification")
                         .setContentText("ПИЗДУЙ В ЗАЛ")
-                        .setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.qr2));
+                        .setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.go_gym));
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, MainActivity.class);
 
