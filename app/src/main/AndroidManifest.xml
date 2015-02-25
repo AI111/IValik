@@ -11,6 +11,9 @@
         <service android:name=".geolocation.SpyService">
 
         </service>
+        <service android:name=".geolocation.SpyService2">
+
+        </service>
 
         <activity
             android:name=".MainActivity"
@@ -23,7 +26,6 @@
         <activity android:name=".registration.RegistrationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -31,12 +33,10 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCdDmgQvDdWZq8nezRrpt2RPfxm8X89ypo"></meta-data>
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"></meta-data>
 
         <uses-feature
             android:glEsVersion="0x00020000"

@@ -1,5 +1,6 @@
 package com.example.sasha.ivalik.registration;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,9 +14,12 @@ import android.widget.TextView;
 import com.example.sasha.ivalik.MainActivity;
 import com.example.sasha.ivalik.R;
 import com.example.sasha.ivalik.database.HelperFactory;
+import com.example.sasha.ivalik.geolocation.SpyService2;
 import com.example.sasha.ivalik.models.CustomExercise;
 import com.example.sasha.ivalik.models.Exercise;
 import com.example.sasha.ivalik.models.Training;
+import com.example.sasha.ivalik.models.User;
+import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -23,9 +27,9 @@ import java.util.Date;
 /**
  * Created by sasha on 2/21/15.
  */
-public class TestFragment extends Fragment implements View.OnClickListener {
+public class TestFragment extends Fragment implements View.OnClickListener, OnChangeFragmente {
     TextView textView;
-    private Button addExercise, showTables, addCustomExercise, addTraining;
+    private Button addExercise, showTables, addCustomExercise, addTraining, save, start, stop;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,12 +41,25 @@ public class TestFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.test_fragment, container, false);
         addExercise = (Button) rootView.findViewById(R.id.button);
         addExercise.setOnClickListener(this);
+
         showTables = (Button) rootView.findViewById(R.id.button2);
         showTables.setOnClickListener(this);
+
         addCustomExercise = (Button) rootView.findViewById(R.id.button4);
         addCustomExercise.setOnClickListener(this);
+
         addTraining = (Button) rootView.findViewById(R.id.button5);
         addTraining.setOnClickListener(this);
+
+        start = (Button) rootView.findViewById(R.id.button6);
+        start.setOnClickListener(this);
+
+        stop = (Button) rootView.findViewById(R.id.button7);
+        stop.setOnClickListener(this);
+
+        save = (Button) rootView.findViewById(R.id.button8);
+        save.setOnClickListener(this);
+
         textView = (TextView) rootView.findViewById(R.id.textView19);
         return rootView;
     }
@@ -69,6 +86,8 @@ public class TestFragment extends Fragment implements View.OnClickListener {
                     Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getExerciseDAO().getAllExercises().toString());
                     Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getCustomExerciseDAO().getAllCustomExercises().toString());
                     Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getTrainingDAO().getAllTrainings().toString());
+                    Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getUserDAO().getAllUsers().toString());
+                    Log.d(MainActivity.LOG_TAG, HelperFactory.getHelper().getGeoPointDAO().getAllGeoPoints().toString());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -112,10 +131,30 @@ public class TestFragment extends Fragment implements View.OnClickListener {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-
-
+                break;
+            case R.id.button6:
+                //start
+                getActivity().startService(new Intent(getActivity(), SpyService2.class));
+                break;
+            case R.id.button7:
+                //stop
+                getActivity().stopService(new Intent(getActivity(), SpyService2.class));
+                break;
+            case R.id.button8:
+                try {
+                    TableUtils.clearTable(HelperFactory.getHelper().getConnectionSource(), User.class);
+                    HelperFactory.getHelper().getUserDAO().create(RegistrationActivity.user);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                //save
                 break;
         }
+
+    }
+
+    @Override
+    public void saveData() {
 
     }
 }

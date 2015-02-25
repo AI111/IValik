@@ -8,9 +8,10 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "user")
 public class User {
+    @DatabaseField(id = true)
+    private int Id;
     @DatabaseField()
     private short weight;
-    ;
     @DatabaseField()
     private short height;
     @DatabaseField()
@@ -83,16 +84,25 @@ public class User {
         this.longtitude = longtitude;
     }
 
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "weight=" + weight +
+                "Id=" + Id +
+                ", weight=" + weight +
                 ", height=" + height +
                 ", gender=" + gender +
                 ", purpose=" + purpose +
                 ", latitude=" + latitude +
                 ", longtitude=" + longtitude +
-                "}\n";
+                '}';
     }
 
     enum TainingPurpose {increasing_muscle_mass, grow_thin, be_strong, stamina}

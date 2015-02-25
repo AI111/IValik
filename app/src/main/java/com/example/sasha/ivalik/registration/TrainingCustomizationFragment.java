@@ -1,7 +1,9 @@
 package com.example.sasha.ivalik.registration;
 
 
+import android.app.Activity;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -13,7 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
+import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -22,16 +24,18 @@ import android.widget.ToggleButton;
 
 import com.example.sasha.ivalik.MainActivity;
 import com.example.sasha.ivalik.R;
+import com.example.sasha.ivalik.models.CustomExercise;
 import com.example.sasha.ivalik.models.TrainingDay;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by sasha on 2/10/15.
  */
-public class TrainerTimeManegerFragment extends Fragment implements View.OnClickListener, OnChangeFragmente {
+public class TrainingCustomizationFragment extends Fragment implements View.OnClickListener, OnChangeFragmente {
     public ArrayList<TrainingDay> days;//= new ArrayList<>();
     ImageButton addBtn;
     DateFormat formatDateTime = DateFormat.getDateTimeInstance();
@@ -87,26 +91,11 @@ public class TrainerTimeManegerFragment extends Fragment implements View.OnClick
         newFragment.show(getFragmentManager(), "timePicker");
     }
 
-    public void showMenu(View view) {
-        TranslateAnimation animate = new TranslateAnimation(0, 0, view.getHeight(), 0);
-        animate.setDuration(300);
-        animate.setFillAfter(false);
-        view.startAnimation(animate);
-        view.setVisibility(View.VISIBLE);
-    }
-
-    public void hideMenu(View view) {
-        TranslateAnimation animate = new TranslateAnimation(0, 0, view.getHeight(), 0);
-        animate.setDuration(300);
-        animate.setFillAfter(false);
-        view.startAnimation(animate);
-        view.setVisibility(View.GONE);
-    }
-
     @Override
     public void saveData() {
 
     }
+
 
     private class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         ArrayList<TrainingDay> trainind;
@@ -122,7 +111,7 @@ public class TrainerTimeManegerFragment extends Fragment implements View.OnClick
 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.time_selection_item, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.training_selection_item, viewGroup, false);
             return new MyViewHolder(v, onItemClicklistener);
         }
 
@@ -150,6 +139,7 @@ public class TrainerTimeManegerFragment extends Fragment implements View.OnClick
         private TextView time;
         private ToggleButton toggleButton;
         private LinearLayout layout;
+
         public MyViewHolder(View itemView, OnItemClicklistener onItemClicklistener) {
             super(itemView);
             this.itemView = itemView;
@@ -174,5 +164,59 @@ public class TrainerTimeManegerFragment extends Fragment implements View.OnClick
             layout.setVisibility(isChecked ? View.VISIBLE : View.GONE);
 
         }
+    }
+
+    private class ExerciseAdapter extends BaseAdapter {
+        List<CustomExercise> exerciseList;
+        private Activity mContext;
+        private LayoutInflater mLayoutInflater = null;
+
+        public ExerciseAdapter(Activity activity, List<CustomExercise> exerciseList) {
+            this.exerciseList = exerciseList;
+            mContext = activity;
+            mLayoutInflater = (LayoutInflater) mContext
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return exerciseList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return exerciseList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v = convertView;
+            CompleteListViewHolder viewHolder;
+            if (convertView == null) {
+                LayoutInflater li = (LayoutInflater) mContext
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                v = li.inflate(R.layout.training_creation_item, null);
+                viewHolder = new CompleteListViewHolder(v);
+                v.setTag(viewHolder);
+            } else {
+                viewHolder = (CompleteListViewHolder) v.getTag();
+            }
+            viewHolder.title.setText(exerciseList.get(position).getExercise().getNameId());
+            return v;
+        }
+
+        class CompleteListViewHolder {
+            public TextView title, approach, repeat, weight, number;
+
+            public CompleteListViewHolder(View base) {
+                title = (TextView) base.findViewById(R.id.name);
+            }
+        }
+
     }
 }

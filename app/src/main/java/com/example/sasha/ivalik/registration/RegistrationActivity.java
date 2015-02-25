@@ -30,6 +30,7 @@ import com.example.sasha.ivalik.models.CustomExercise;
 import com.example.sasha.ivalik.models.Exercise;
 import com.example.sasha.ivalik.models.GeoPoint;
 import com.example.sasha.ivalik.models.Training;
+import com.example.sasha.ivalik.models.User;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
@@ -41,6 +42,7 @@ import java.util.Calendar;
  */
 public class RegistrationActivity extends ActionBarActivity implements View.OnClickListener {
 
+    public static User user = new User();
     ArrayList<Fragment> fragments = new ArrayList<>();
     ImageButton next, prev;
     private ViewPager mPager;
@@ -50,10 +52,11 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration_slide_activity);
+
         fragments.add(new TestFragment());
         fragments.add(new AnketaFragment());
         fragments.add(new MapaFragment());
-        fragments.add(new TrainerTimeManegerFragment());
+        fragments.add(new TrainingCustomizationFragment());
         // Instantiate a ViewPager and a PagerAdapter.
         next= (ImageButton)findViewById(R.id.imageButton2);
         prev = (ImageButton)findViewById(R.id.imageButton3);
@@ -149,7 +152,6 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.imageButton2:
-
                 if (mPager.getCurrentItem() < fragments.size() - 1) {
                     mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
 

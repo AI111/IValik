@@ -21,7 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * Created by sasha on 2/10/15.
  */
-public class MapaFragment extends Fragment implements OnMapReadyCallback {
+public class MapaFragment extends Fragment implements OnMapReadyCallback, OnChangeFragmente {
     Marker marker;
     private SupportMapFragment fragment;
     private GoogleMap map;
@@ -45,6 +45,8 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
         googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
+                RegistrationActivity.user.setLatitude(latLng.latitude);
+                RegistrationActivity.user.setLongtitude(latLng.longitude);
                 Log.d(MainActivity.LOG_TAG, "onMapLongClick " + latLng.latitude + " " + latLng.longitude);
                 if (marker == null)
                     marker = googleMap.addMarker(new MarkerOptions().title("Зал").snippet("Место тренеровок").position(latLng).anchor(0.0f, 1.0f).draggable(true));
@@ -64,6 +66,8 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public void onMarkerDragEnd(Marker marker) {
+                RegistrationActivity.user.setLatitude(marker.getPosition().latitude);
+                RegistrationActivity.user.setLongtitude(marker.getPosition().longitude);
                 Log.d(MainActivity.LOG_TAG, "onMarkerDragEnd " + marker.getPosition().latitude + " " + marker.getPosition().longitude);
                 // marker.setPosition();
             }
@@ -92,4 +96,8 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
 //        }
     }
 
+    @Override
+    public void saveData() {
+
+    }
 }

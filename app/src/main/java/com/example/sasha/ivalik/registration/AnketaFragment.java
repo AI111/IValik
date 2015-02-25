@@ -12,7 +12,7 @@ import com.example.sasha.ivalik.R;
 /**
  * Created by sasha on 2/10/15.
  */
-public class AnketaFragment extends Fragment {
+public class AnketaFragment extends Fragment implements OnChangeFragmente {
 
 
     @Override
@@ -25,5 +25,10 @@ public class AnketaFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.ragistration_anketa, container, false);
 
         return rootView;
+    }
+
+    @Override
+    public void saveData() {
+
     }
 }
