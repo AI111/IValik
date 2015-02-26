@@ -56,6 +56,10 @@ public class Training {
         HelperFactory.getHelper().getCustomExerciseDAO().delete(value);
     }
 
+    public Collection<CustomExercise> getExercises() {
+        return exercises;
+    }
+
     @Override
     public String toString() {
         return "Training{" +

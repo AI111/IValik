@@ -3,11 +3,16 @@ package com.example.sasha.ivalik.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * Created by sasha on 2/15/15.
  */
 @DatabaseTable(tableName = "custom_exercise")
-public class CustomExercise {
+public class CustomExercise implements Serializable {
+    private static final long serialVersionUID = -4586456216456653L;
+    @DatabaseField(generatedId = true)
+    private int id;
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Exercise exercise;  //id упражнения
     @DatabaseField()

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-    <android.support.v4.view.ViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
@@ -20,6 +21,19 @@
         android:scaleType="centerCrop"
         android:src="@drawable/next" />
 
+    <Button
+        android:id="@+id/finish"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent"
+        android:text="FINISH"
+        android:textSize="18dp"
+        android:visibility="gone" />
+
     <ImageButton
         android:id="@+id/imageButton3"
         android:layout_width="30dp"
@@ -32,5 +46,5 @@
         android:background="@android:color/transparent"
         android:scaleType="centerCrop"
         android:src="@drawable/previous"
-        android:visibility="gone" />
+        android:visibility="visible" />
 </RelativeLayout>

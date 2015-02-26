@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.sasha.ivalik.MainActivity;
@@ -28,6 +29,7 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by sasha on 2/10/15.
@@ -37,6 +39,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
     public static User user = new User();
     ArrayList<Fragment> fragments = new ArrayList<>();
     ImageButton next, prev;
+    Button finish;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
 
@@ -49,7 +52,7 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
         fragments.add(new AnketaFragment());
         fragments.add(new MapaFragment());
         fragments.add(new TrainerTimeManegerFragment());
-        fragments.add(new TrainingCustomizationFragment());
+        //      fragments.add(new TrainingCustomizationFragment());
         // Instantiate a ViewPager and a PagerAdapter.
         next= (ImageButton)findViewById(R.id.imageButton2);
         prev = (ImageButton)findViewById(R.id.imageButton3);
@@ -58,6 +61,8 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
         mPager.setAdapter(mPagerAdapter);
         next.setOnClickListener(this);
         prev.setOnClickListener(this);
+        finish = (Button) findViewById(R.id.finish);
+        finish.setOnClickListener(this);
     }
 
     @Override
@@ -142,6 +147,9 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
                     prev.setVisibility(View.VISIBLE);
                     if (mPager.getCurrentItem() == fragments.size() - 1) {
                         next.setVisibility(View.GONE);
+                        finish.setVisibility(View.VISIBLE);
+
+
                     }
 
                 }
@@ -150,11 +158,44 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
                 if (mPager.getCurrentItem() > 0) {
                     mPager.setCurrentItem(mPager.getCurrentItem() - 1, true);
                     next.setVisibility(View.VISIBLE);
+                    finish.setVisibility(View.GONE);
                     if (mPager.getCurrentItem() == 0) {
                         prev.setVisibility(View.GONE);
                     }
                 }
 
+                break;
+            case R.id.finish:
+                try {
+                    TableUtils.clearTable(HelperFactory.getHelper().getConnectionSource(), User.class);
+                    HelperFactory.getHelper().getUserDAO().create(RegistrationActivity.user);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                Training training = new Training();
+                training.setDate(new Date());
+                try {
+                    HelperFactory.getHelper().getTrainingDAO().create(training);
+
+                    training.addCustomExercise(new CustomExercise(HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.bench_press)
+                            , (byte) 2, (byte) 10, (byte) 80, false));
+                    training.addCustomExercise(new CustomExercise(HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.pull_ups_on_the_bar)
+                            , (byte) 2, (byte) 10, (byte) 0, false));
+                    training.addCustomExercise(new CustomExercise(HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.squats_on_his_shoulders)
+                            , (byte) 4, (byte) 10, (byte) 30, false));
+                    training.addCustomExercise(new CustomExercise(HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.deadlift)
+                            , (byte) 2, (byte) 10, (byte) 30, false));
+                    training.addCustomExercise(new CustomExercise(HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.lifting_dumbbells_for_biceps_sitting)
+                            , (byte) 4, (byte) 10, (byte) 12, false));
+                    training.addCustomExercise(new CustomExercise(HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.twist_on_an_incline_bench)
+                            , (byte) 4, (byte) 10, (byte) 12, false));
+
+                    Log.d(MainActivity.LOG_TAG, training.toString());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+
+                }
+                startActivity(new Intent(this, MainActivity.class));
                 break;
         }
     }

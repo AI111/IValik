@@ -19,20 +19,21 @@ import android.widget.ToggleButton;
 
 import com.example.sasha.ivalik.MainActivity;
 import com.example.sasha.ivalik.R;
+import com.example.sasha.ivalik.database.HelperFactory;
 import com.example.sasha.ivalik.models.CustomExercise;
-import com.example.sasha.ivalik.models.Exercise;
+import com.example.sasha.ivalik.models.Training;
 import com.example.sasha.ivalik.registration.OnItemClicklistener;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
  * Created by sasha on 2/10/15.
  */
 public class TrainingListFragment extends Fragment implements View.OnClickListener {
+    public final static String SER_KEY = "com.example.sasha.ivalik.ser";
     public ArrayList<CustomExercise> exercises;//= new ArrayList<>();
     ImageButton addBtn;
-
-
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private MyAdapter mAdapter;
@@ -55,15 +56,34 @@ public class TrainingListFragment extends Fragment implements View.OnClickListen
         //mRecyclerView.setLayoutManager(mLayoutManager);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         mRecyclerView.setItemAnimator(itemAnimator);
+        try {
+            Training training = HelperFactory.getHelper().getTrainingDAO().queryForId(1);
+            exercises = new ArrayList<>();
+            exercises.addAll(training.getExercises());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 //        // specify an adapter (see also next example)
         // listView = (ListView) rootView.findViewById(R.id.list_view);
-        exercises = new ArrayList<>();
-        exercises.add(new CustomExercise(
-                new Exercise(R.string.pull_ups_on_the_bar, (byte) 0, R.string.pull_ups_on_the_bar_desc, "o_b189b90655199e57-0.jpg", "o_b189b90655199e57-1.jpg")
-                , (byte) 10, (byte) 10, (byte) 80, false));
-        exercises.add(new CustomExercise(
-                new Exercise(R.string.dips, (byte) 0, R.string.dips_description, "o_4add3c18dd626cdc-0.jpg", "o_4add3c18dd626cdc-1.jpg")
-                , (byte) 10, (byte) 10, (byte) 80, false));
+//        exercises = new ArrayList<>();
+//        try {
+//            exercises.add(new CustomExercise(
+//                    HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.pull_ups_on_the_bar)
+//                    , (byte) 10, (byte) 10, (byte) 80, false));
+//            exercises.add(new CustomExercise(
+//                    HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.dips)
+//                    , (byte) 10, (byte) 10, (byte) 80, false));
+//            exercises.add(new CustomExercise(
+//                    HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.bench_press)
+//                    , (byte) 6, (byte) 4, (byte) 80, false));
+//            exercises.add(new CustomExercise(
+//                    HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.lifting_dumbbells_for_biceps_sitting)
+//                    , (byte) 6, (byte) 1, (byte) 80, false));
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
         //  listView
         mAdapter = new MyAdapter(exercises);
         // mAdapter.setOnItemClickListener(this);
@@ -71,8 +91,12 @@ public class TrainingListFragment extends Fragment implements View.OnClickListen
         mAdapter.setOnItemClickListener(new OnItemClicklistener() {
             @Override
             public void onClickItem(View rootView, View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(SER_KEY, exercises.get(position));
+                ExerciseFragment fragment = new ExerciseFragment();
+                fragment.setArguments(bundle);
                 Log.v(MainActivity.LOG_TAG, "OnItemClick  " + position);
-                getFragmentManager().beginTransaction().replace(R.id.container, new ExerciseFragment(exercises.get(position))).addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -110,7 +134,7 @@ public class TrainingListFragment extends Fragment implements View.OnClickListen
             viewHolder.title.setText(exercises.get(i).getExercise().getNameId());
             viewHolder.approach.setText(exercises.get(i).getApproach() + "");
             viewHolder.repeat.setText(exercises.get(i).getRepeat() + "");
-            viewHolder.weight.setText((exercises.get(i).getPercentPM() * exercises.get(i).getExercise().getpM()) + "");
+            viewHolder.weight.setText((exercises.get(i).getPercentPM() / 100 * exercises.get(i).getExercise().getpM()) + "");
 
         }
 

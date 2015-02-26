@@ -1,5 +1,6 @@
 package com.example.sasha.ivalik.trainer;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -29,14 +30,13 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener, 
     private CustomExercise exercise;
     private ImageView img1, img2;
     private TextView description, title, approach, repeat, weight, time;
-
-    public ExerciseFragment(CustomExercise exercise) {
-        this.exercise = exercise;
-    }
+    private boolean timerRun;
+    private int tmpApproach;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        exercise = (CustomExercise) getArguments().getSerializable(TrainingListFragment.SER_KEY);
     }
 
     @Override
@@ -53,37 +53,62 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener, 
         img2 = (ImageView) rootView.findViewById(R.id.imageView2);
         Picasso.with(getActivity()).load("file:///android_asset/" + exercise.getExercise().getUrl2()).into(img2);
         approach = (TextView) rootView.findViewById(R.id.textView17);
+        approach.setText("подходы " + exercise.getApproach());
+
+        repeat = (TextView) rootView.findViewById(R.id.textView13);
+        tmpApproach = exercise.getApproach();
+        repeat.setText("повторения " + exercise.getRepeat());
         time = (TextView) rootView.findViewById(R.id.textView14);
         toggleButton = (ToggleButton) rootView.findViewById(R.id.UP_DOWN);
         toggleButton.setOnCheckedChangeListener(this);
-        progressBar.setMax(5000);
         progressBar.setOnClickListener(this);
 
         return rootView;
     }
 
-    public void startTimer() {
+    public void startTimer(final int tsec) {
+        final float s = tsec / progressBar.getMax();
+        timerRun = true;
         progressBar.setProgress(0);
-        timer = new CountDownTimer(5000, 20) {
+        timer = new CountDownTimer(tsec, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
-                progressBar.setProgress((int) (5000 - millisUntilFinished));
+                progressBar.setProgress((int) ((tsec - millisUntilFinished) / s));
                 time.setText(String.format("%4.2f", (float) (millisUntilFinished * 0.001f)));
-                Log.d(MainActivity.LOG_TAG, "onTick " + millisUntilFinished);
+                Log.d(MainActivity.LOG_TAG, "onTick " + s + "   " + millisUntilFinished + " " + ((tsec - millisUntilFinished) / s));
             }
 
             @Override
             public void onFinish() {
-                progressBar.setProgress(5000);
+                progressBar.setProgress(progressBar.getMax());
                 time.setText("START");
+                timerRun = false;
+                tmpApproach--;
+                approach.setText(getText(R.string.repeat) + " " + tmpApproach);
+                if (tmpApproach == exercise.getApproach() / 2) {
+                    if (exercise.getExercise().getSoundId() != 0) {
+                        MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), exercise.getExercise().getSoundId());
+                        mediaPlayer.start();
+                    }
+                } else if (tmpApproach == 0) {
+                    exercise.setFinished(true);
+                }
             }
         }.start();
 
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (timer != null)
+            timer.cancel();
+    }
+
+    @Override
     public void onClick(View v) {
-        startTimer();
+        if (!timerRun)
+            startTimer(6000);
     }
 
     @Override

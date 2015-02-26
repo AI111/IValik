@@ -20,17 +20,20 @@ public class Exercise {
     private String url1;
     @DatabaseField()
     private String url2;
+    @DatabaseField()
+    private int soundId;
 
     public Exercise() {
 
     }
 
-    public Exercise(int nameId, byte pM, int descriptionId, String url1, String url2) {
+    public Exercise(int nameId, byte pM, int descriptionId, String url1, String url2, int soundId) {
         this.nameId = nameId;
         this.pM = pM;
         this.descriptionId = descriptionId;
         this.url1 = url1;
         this.url2 = url2;
+        this.soundId = soundId;
     }
 
     public int getNameId() {
@@ -73,16 +76,24 @@ public class Exercise {
         this.url2 = url2;
     }
 
+    public int getSoundId() {
+        return soundId;
+    }
+
+    public void setSoundId(int soundId) {
+        this.soundId = soundId;
+    }
+
     @Override
     public String toString() {
         return "Exercise{" +
-                //"Id=" + Id +
-                ", nameId=" + nameId +
+                "nameId=" + nameId +
                 ", pM=" + pM +
                 ", descriptionId=" + descriptionId +
                 ", url1='" + url1 + '\'' +
                 ", url2='" + url2 + '\'' +
-                "}\n";
+                ", soundId=" + soundId +
+                '}';
     }
 
     enum muscleType {}

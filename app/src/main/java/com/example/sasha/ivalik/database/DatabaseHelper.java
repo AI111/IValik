@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.sasha.ivalik.R;
 import com.example.sasha.ivalik.models.CustomExercise;
 import com.example.sasha.ivalik.models.Exercise;
 import com.example.sasha.ivalik.models.GeoPoint;
@@ -48,11 +49,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, CustomExercise.class);
             TableUtils.createTable(connectionSource, GeoPoint.class);
             TableUtils.createTable(connectionSource, User.class);
-
+            writeTrainings();
         } catch (SQLException e) {
             Log.e(TAG, "error creating DB " + DATABASE_NAME);
             throw new RuntimeException(e);
         }
+
     }
 
     @Override
@@ -113,6 +115,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return userDAO;
     }
 
+    private void writeTrainings() throws SQLException {
+        HelperFactory.getHelper().getExerciseDAO().create(new Exercise(R.string.pull_ups_on_the_bar, (byte) 0, R.string.pull_ups_on_the_bar_desc, "o_b189b90655199e57-0.jpg", "o_b189b90655199e57-1.jpg", R.raw.stanovaya_pelmeshek));
+        HelperFactory.getHelper().getExerciseDAO().create(new Exercise(R.string.dips, (byte) 0, R.string.dips_description, "o_4add3c18dd626cdc-0.jpg", "o_4add3c18dd626cdc-1.jpg", 0));
+        HelperFactory.getHelper().getExerciseDAO().create(new Exercise(R.string.bench_press, (byte) 70, R.string.bench_press_description, "o_321230e9d2037e98-0.jpg", "o_321230e9d2037e98-1.jpg", R.raw.zhmi_silnee));
+        HelperFactory.getHelper().getExerciseDAO().create(new Exercise(R.string.squats_on_his_shoulders, (byte) 40, R.string.squats_on_his_shoulders_description, "o_3be12118d114ad3b-1.jpg", "o_3be12118d114ad3b-2.jpg", R.raw.priseday_nakhuy));
+        HelperFactory.getHelper().getExerciseDAO().create(new Exercise(R.string.lifting_dumbbells_for_biceps_sitting, (byte) 12, R.string.lifting_dumbbells_for_biceps_sitting_description, "o_c0f43f1a08915910-1.jpg", "o_c0f43f1a08915910-2.jpg", 0));
+        HelperFactory.getHelper().getExerciseDAO().create(new Exercise(R.string.deadlift, (byte) 50, R.string.deadlift_description, "o_820d5ed6f9560f09-1.jpg", "o_820d5ed6f9560f09-1.jpg", R.raw.zhim_vytochu_spinu));
+        HelperFactory.getHelper().getExerciseDAO().create(new Exercise(R.string.twist_on_an_incline_bench, (byte) 0, R.string.twist_on_an_incline_bench_description, "o_42cce36403b0a149-0.jpg", "o_42cce36403b0a149-1.jpg", 0));
+        HelperFactory.getHelper().getExerciseDAO().create(new Exercise(R.string.press_bar_on_incline_bench, (byte) 70, R.string.press_bar_on_incline_bench_description, "o_db2bf39da41513cc-0.jpg", "o_db2bf39da41513cc-0.jpg", 0));
+    }
     //выполняется при закрытии приложения
     @Override
     public void close() {

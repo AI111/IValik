@@ -68,17 +68,8 @@ public class TestFragment extends Fragment implements View.OnClickListener, OnCh
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.button:
-                Exercise exercise1 = new Exercise(R.string.pull_ups_on_the_bar, (byte) 0, R.string.pull_ups_on_the_bar_desc, "o_b189b90655199e57-0.jpg", "o_b189b90655199e57-1.jpg");
-                Exercise exercise2 = new Exercise(R.string.dips, (byte) 0, R.string.dips_description, "o_4add3c18dd626cdc-0.jpg", "o_4add3c18dd626cdc-1.jpg");
-                try {
-                    HelperFactory.getHelper().getExerciseDAO().createIfNotExists(exercise1);
-                    HelperFactory.getHelper().getExerciseDAO().createIfNotExists(exercise2);
 
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                break;
+
             case R.id.button2:
                 try {
                     textView.setText(HelperFactory.getHelper().getExerciseDAO().getAllExercises().toString() + "\n" + HelperFactory.getHelper().getCustomExerciseDAO().getAllCustomExercises().toString() + "\n" + HelperFactory.getHelper().getTrainingDAO().getAllTrainings().toString());
@@ -125,7 +116,19 @@ public class TestFragment extends Fragment implements View.OnClickListener, OnCh
                 try {
                     HelperFactory.getHelper().getTrainingDAO().create(training);
 
-                    training.addCustomExercise(customExercise1);
+                    training.addCustomExercise(new CustomExercise(HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.bench_press)
+                            , (byte) 2, (byte) 10, (byte) 80, false));
+                    training.addCustomExercise(new CustomExercise(HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.pull_ups_on_the_bar)
+                            , (byte) 2, (byte) 10, (byte) 0, false));
+                    training.addCustomExercise(new CustomExercise(HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.squats_on_his_shoulders)
+                            , (byte) 4, (byte) 10, (byte) 30, false));
+                    training.addCustomExercise(new CustomExercise(HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.deadlift)
+                            , (byte) 2, (byte) 10, (byte) 30, false));
+                    training.addCustomExercise(new CustomExercise(HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.lifting_dumbbells_for_biceps_sitting)
+                            , (byte) 4, (byte) 10, (byte) 12, false));
+                    training.addCustomExercise(new CustomExercise(HelperFactory.getHelper().getExerciseDAO().queryForId(R.string.twist_on_an_incline_bench)
+                            , (byte) 4, (byte) 10, (byte) 12, false));
+
                     Log.d(MainActivity.LOG_TAG, customExercise1.toString());
                     Log.d(MainActivity.LOG_TAG, training.toString());
                 } catch (SQLException e) {

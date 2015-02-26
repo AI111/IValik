@@ -59,8 +59,7 @@
                     android:layout_gravity="center"
                     android:background="@drawable/circle_shape"
                     android:indeterminate="false"
-                    android:max="5000"
-                    android:progress="1000"
+                    android:max="6000"
                     android:progressDrawable="@drawable/progress_circle" />
 
                 <TextView

@@ -24,7 +24,6 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
             android:background="@drawable/abc_popup_background_mtrl_mult"
             android:orientation="vertical">
 
@@ -165,56 +164,56 @@
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginLeft="10dp"
                 android:background="@drawable/abc_popup_background_mtrl_mult"
                 android:gravity="left">
 
                 <RadioButton
-                        android:id="@+id/radioButton7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    android:id="@+id/radioButton7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="10dp"
-                        android:checked="false"
-                        android:text="Набор массы"
-                        android:textColor="@color/primary_text"
-                        android:textSize="25dp" />
-                    <RadioButton
-                        android:id="@+id/radioButton8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="10dp"
-                        android:checked="false"
-                        android:text="Сжигание жира"
-                        android:textColor="@color/primary_text"
-                        android:textSize="25dp" />
+                    android:checked="false"
+                    android:text="Набор массы"
+                    android:textColor="@color/primary_text"
+                    android:textSize="25dp" />
 
-                    <RadioButton
-                        android:id="@+id/radioButton9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="10dp"
-                        android:checked="false"
-                        android:text="Увеличение силы"
-                        android:textColor="@color/primary_text"
-                        android:textSize="25dp" />
-                    <RadioButton
-                        android:id="@+id/radioButton10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="10dp"
-                        android:checked="false"
-                        android:text="Выносливость"
-                        android:textColor="@color/primary_text"
-                        android:textSize="25dp" />
+                <RadioButton
+                    android:id="@+id/radioButton8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="10dp"
+                    android:checked="false"
+                    android:text="Сжигание жира"
+                    android:textColor="@color/primary_text"
+                    android:textSize="25dp" />
+
+                <RadioButton
+                    android:id="@+id/radioButton9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="10dp"
+                    android:checked="false"
+                    android:text="Увеличение силы"
+                    android:textColor="@color/primary_text"
+                    android:textSize="25dp" />
+
+                <RadioButton
+                    android:id="@+id/radioButton10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="10dp"
+                    android:checked="false"
+                    android:text="Выносливость"
+                    android:textColor="@color/primary_text"
+                    android:textSize="25dp" />
             </RadioGroup>
         </LinearLayout>
     </LinearLayout>
