@@ -47,8 +47,13 @@ public class RegistrationActivity extends ActionBarActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration_slide_activity);
-
-        fragments.add(new TestFragment());
+        try {
+            if (HelperFactory.getHelper().getTrainingDAO().getAllTrainings().size() > 0)
+                startActivity(new Intent(this, MainActivity.class));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //   fragments.add(new TestFragment());
         fragments.add(new AnketaFragment());
         fragments.add(new MapaFragment());
         fragments.add(new TrainerTimeManegerFragment());

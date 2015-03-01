@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.sasha.ivalik.geolocation.SpyService2;
 import com.example.sasha.ivalik.registration.RegistrationActivity;
 import com.example.sasha.ivalik.trainer.TrainingListFragment;
 
@@ -110,6 +111,13 @@ public class MainActivity extends ActionBarActivity
                 Intent intent = new Intent(getApplicationContext(), RegistrationActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.start_service:
+                startService(new Intent(this, SpyService2.class));
+
+                break;
+            case R.id.stop_service:
+                stopService(new Intent(this, SpyService2.class));
+                break;
         }
 
         return super.onOptionsItemSelected(item);

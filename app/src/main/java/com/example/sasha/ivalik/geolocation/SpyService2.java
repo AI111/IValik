@@ -84,6 +84,7 @@ public class SpyService2 extends Service {
 
                         if (x * x + y * y < r2) {
                             Log.d(MainActivity.LOG_TAG, " in gym ");
+                            //onDestroy();
 
                         } else {
                             Log.d(MainActivity.LOG_TAG, " not in gym ");
