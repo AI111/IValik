@@ -120,7 +120,7 @@ public class SpyService2 extends Service {
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.plus)
                         .setContentTitle("My notification")
-                        .setContentText("ПИЗДУЙ В ЗАЛ")
+                        .setContentText("GO TO GYM")
                         .setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.go_gym));
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, MainActivity.class);

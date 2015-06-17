@@ -3,6 +3,7 @@ package com.example.sasha.ivalik.trainer;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -20,10 +21,12 @@ import com.example.sasha.ivalik.R;
 import com.example.sasha.ivalik.models.CustomExercise;
 import com.squareup.picasso.Picasso;
 
+import java.util.Locale;
+
 /**
  * Created by sasha on 2/18/15.
  */
-public class ExerciseFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class ExerciseFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, TextToSpeech.OnInitListener {
     CountDownTimer timer;
     ToggleButton toggleButton;
     private ProgressBar progressBar;
@@ -32,11 +35,13 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener, 
     private TextView description, title, approach, repeat, weight, time;
     private boolean timerRun;
     private int tmpApproach;
-
+    TextToSpeech textToSpeech;
+    boolean firstClick=true;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         exercise = (CustomExercise) getArguments().getSerializable(TrainingListFragment.SER_KEY);
+        textToSpeech= new TextToSpeech(getActivity(),this);
     }
 
     @Override
@@ -75,7 +80,7 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener, 
             public void onTick(long millisUntilFinished) {
                 progressBar.setProgress((int) ((tsec - millisUntilFinished) / s));
                 time.setText(String.format("%4.2f", (float) (millisUntilFinished * 0.001f)));
-                Log.d(MainActivity.LOG_TAG, "onTick " + s + "   " + millisUntilFinished + " " + ((tsec - millisUntilFinished) / s));
+               // Log.d(MainActivity.LOG_TAG, "onTick " + s + "   " + millisUntilFinished + " " + ((tsec - millisUntilFinished) / s));
             }
 
             @Override
@@ -85,12 +90,7 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener, 
                 timerRun = false;
                 tmpApproach--;
                 approach.setText(getText(R.string.repeat) + " " + tmpApproach);
-                if (tmpApproach == exercise.getApproach() / 2) {
-                    if (exercise.getExercise().getSoundId() != 0) {
-                        MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), exercise.getExercise().getSoundId());
-                        mediaPlayer.start();
-                    }
-                } else if (tmpApproach == 0) {
+                if (tmpApproach == 0) {
                     exercise.setFinished(true);
                 }
             }
@@ -103,10 +103,18 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener, 
         super.onDestroyView();
         if (timer != null)
             timer.cancel();
+
+        textToSpeech.stop();
+        textToSpeech.shutdown();
     }
 
     @Override
     public void onClick(View v) {
+        if (firstClick){
+            Log.d(MainActivity.LOG_TAG,"onClick   speek");
+            textToSpeech.speak(getString(exercise.getExercise().getDescriptionId()),TextToSpeech.QUEUE_FLUSH,null);
+            firstClick=false;
+        }
         if (!timerRun)
             startTimer(6000);
     }
@@ -114,6 +122,19 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         description.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void onInit(int status) {
+        Log.d(MainActivity.LOG_TAG,"onInit "+status);
+        if (status == TextToSpeech.SUCCESS) {
+         //   textToSpeech.setLanguage(Locale.ENGLISH);
+
+           // textToSpeech.speak("Hello World", TextToSpeech.QUEUE_FLUSH, null);
+            textToSpeech.setLanguage(new Locale("ru"));
+
+        }
+
     }
 }
 
